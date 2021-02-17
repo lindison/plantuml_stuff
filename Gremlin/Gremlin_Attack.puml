@@ -1,0 +1,41 @@
+@startuml
+
+header Gremlin attack workflow
+title Gremlin manual attack workflow
+autonumber
+actor Developer
+actor Observer
+
+group Log into Gremlin App 
+    Developer -> app.gremlin.com 
+    app.gremlin.com -> Developer: Available Targets
+    note right: show the target that can be attacked 
+    group Create and Run Attacks
+        Developer -> SelectTargets
+        SelectTargets -> SelectAttacks
+        SelectAttacks -> RunAttacks
+
+        group Run Attacks
+            RunAttacks -> OutputResults
+            OutputResults -> Observer
+            note right: Observer to record results of the attacks
+        end
+
+        group Record results
+            Observer -> RecordResults
+            RecordResults -> app.gremlin.com
+            app.gremlin.com -> Observer
+            Observer -> Developer: notify records
+            note right: Results have been recorded
+        end
+
+        group Analyze results
+            Developer -> app.gremlin.com 
+            app.gremlin.com -> RecordResults 
+            RecordResults -> AnalyzeResults
+            AnalyzeResults -> Developer
+        end 
+    end
+end 
+
+@enduml

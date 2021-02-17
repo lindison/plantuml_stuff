@@ -1,0 +1,11 @@
+@startuml
+
+autonumber
+actor General
+actor Commander
+actor Scribe
+actor Observer
+
+
+
+@enduml
