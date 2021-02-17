@@ -5,37 +5,64 @@ title Gremlin manual attack workflow
 autonumber
 actor Developer
 actor Observer
+box "Internal" #LightBlue
+    participant Developer
+    participant Observer
+    participant Hypothesis
+end box
 
-group Log into Gremlin App 
-    Developer -> app.gremlin.com 
-    app.gremlin.com -> Developer: Available Targets
-    note right: show the target that can be attacked 
-    group Create and Run Attacks
-        Developer -> SelectTargets
-        SelectTargets -> SelectAttacks
-        SelectAttacks -> RunAttacks
+group Create Hypothesis
+    Developer ->o Hypothesis: Create a hypothesis
+    note right: 
+    Activate Hypothesis #FFBBBB
+end
 
-        group Run Attacks
-            RunAttacks -> OutputResults
-            OutputResults -> Observer
-            note right: Observer to record results of the attacks
+== Run Attacks ==
+    group Log into Gremlin App 
+        Hypothesis ->o Developer
+        Developer ->o app.gremlin.com 
+        box "app.gremlin.com" #LightGreen
+            participant app.gremlin.com
+            participant SelectTargets
+            participant SelectAttacks
+            participant RunAttacks
+        end box
+        app.gremlin.com ->o Developer: Show Available Targets
+        note right: show the target that can be attacked 
+        group Create and Run Attacks
+            Developer ->o SelectTargets
+            group Select Targets
+                SelectTargets ->o SelectAttacks
+                SelectAttacks ->o RunAttacks
+            end
+
+            group Run Attacks
+                RunAttacks ->o OutputResults
+                OutputResults ->o Observer
+                note right: Observer to record results \n of the attacks
+            end
+
+            group Record results
+                Observer ->o app.gremlin.com
+                app.gremlin.com ->o Observer
+                Observer ->o Developer: notify Developer of results
+                note right: Results have been recorded
+            end
         end
-
-        group Record results
-            Observer -> RecordResults
-            RecordResults -> app.gremlin.com
-            app.gremlin.com -> Observer
-            Observer -> Developer: notify records
-            note right: Results have been recorded
-        end
-
-        group Analyze results
-            Developer -> app.gremlin.com 
-            app.gremlin.com -> RecordResults 
-            RecordResults -> AnalyzeResults
-            AnalyzeResults -> Developer
-        end 
     end
+
+
+deactivate Hypothesis
+== Analyze Results == 
+group Analyze results
+    Developer ->o app.gremlin.com 
+    app.gremlin.com ->o AnalyzeResults: Read recorded results in Gremlin dashboard
+    AnalyzeResults ->o Developer: Create new hypothesis and test again
 end 
+
+box "Internal" #LightBlue
+    participant OutputResults
+    participant AnalyzeResults
+end box
 
 @enduml
