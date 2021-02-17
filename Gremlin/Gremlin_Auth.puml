@@ -1,0 +1,39 @@
+@startuml
+
+header Gremlin AUTH workflow
+title How users log into Gremlin
+autonumber
+actor Developer
+actor COEApprover
+database ActiveDirectory
+hnote over ActiveDirectory: UserName 
+hnote over ActiveDirectory: ADGroup
+
+boundary Gremlin
+
+database GremlinAUTH
+hnote over GremlinAUTH: UserName 
+hnote over GremlinAUTH: TeamID
+
+group Request Access
+    Developer -> COEApprover: Request access
+    COEApprover ->X Developer: Deny 
+    COEApprover -> Developer: Approve
+end
+
+group Log into Gremlin App
+    Developer -> app.gremlin.com
+    app.gremlin.com -> Developer: Available Targets
+    group Create and Run Attacks
+        Developer -> SelectTargets
+        SelectTargets -> SelectAttacks
+        SelectAttacks -> RunAttacks
+        RunAttacks -> AttackResults
+        AttackResults -> Developer
+    end
+end
+
+
+
+
+@enduml
