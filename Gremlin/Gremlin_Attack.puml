@@ -13,13 +13,11 @@ end box
 
 group Create Hypothesis
     Developer ->o Hypothesis: Create a hypothesis
-    note right: 
-    Activate Hypothesis #FFBBBB
 end
+
 
 == Run Attacks ==
     group Log into Gremlin App 
-        Hypothesis ->o Developer
         Developer ->o app.gremlin.com 
         box "app.gremlin.com" #LightGreen
             participant app.gremlin.com
@@ -45,14 +43,14 @@ end
             group Record results
                 Observer ->o app.gremlin.com
                 app.gremlin.com ->o Observer
-                Observer ->o Developer: notify Developer of results
+               {end} Observer ->o Developer: notify Developer of results
                 note right: Results have been recorded
             end
         end
     end
 
 
-deactivate Hypothesis
+ 
 == Analyze Results == 
 group Analyze results
     Developer ->o app.gremlin.com 

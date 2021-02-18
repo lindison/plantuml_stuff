@@ -1,0 +1,80 @@
+@startuml
+
+' TA4424687 - Onboarding process/model for Resiliency COE
+' 02/18/2021 
+' Assumptions: Container PaaS is OpenShift
+' // OpenShift will add application namespaces to Resiliency testing
+
+header "<font color=red><b>Questions? Email: ResiliencyCOE@cigna.com"
+title Resiliency Testing Onboarding
+
+autonumber 
+
+actor COETeam
+actor Customer
+actor ADResource
+actor OktaResource
+actor LinuxTeam
+actor WindowsTeam
+actor PaaSTeam
+
+
+group PreOnboarding
+    Customer -> PVSIntakeform: Custoemr fills out the PVS Resiliency Test form
+    PVSIntakeform -> ResiliencyCOE@cigna.com: PVS generated email
+    COETeam <- ResiliencyCOE@cigna.com: notifies COE Lead and Team
+    group Approval
+        COETeam -> PVSIntakeform: Review the answers
+        PVSIntakeform -> COETeam: 
+        COETeam -> Customer: Approve
+        group Deny
+        COETeam ->x Customer: Deny request and remediate gaps
+        note left Customer: Send COE BACKLOG
+    end
+end
+
+group Onboarding - User Access
+    COETeam -> ADTicket: COE Team submits Ticket to AD
+    ADTicket -> ADResource: AD Team fullfills request
+    ADResource -> ADTicket: Updates Ticket, passes to Okta Team
+    ADTicket -> OktaResource: Okta team maps the group
+    OktaResource -> ADTicket: updates Ticket
+    ADTicket -> COETeam: Notifies work is done
+end
+
+group Onboarding - Intake Questionaire
+    COETeam -> Customer: Schedule meeting with Customer team 
+    Customer -> COETeam: COE Team and customer work on Intake Questionaire
+    group Determine go/no-go
+        COETeam -> Customer: GO
+        COETeam ->x Customer: NO-GO
+        note left Customer: Send COE BACKLOG or Remediate
+    end
+    Customer -> COETeam: provides resources and time
+end 
+
+group Onboarding - Install Agent
+    group Install Agent Windows [Onpremise / Public Cloud]
+        COETeam -> WindowsTeam: Request to install Gremlin agent
+        WindowsTeam -> COETeam: Agent is installed
+        WindowsTeam ->x COETeam: Agent is NOt installed
+        note left Customer: Send COE BACKLOG or Remediate
+    end
+    group Install Agent Linux [Onpremise / Public Cloud]
+        COETeam -> LinuxTeam: Request to install Gremlin agent
+        LinuxTeam -> COETeam: Agent is installed
+        LinuxTeam ->x COETeam: Agent is NOt installed
+        note left Customer: Send COE BACKLOG or Remediate
+    end
+    group Install Container PaaS [Onpremise / Public Cloud]
+        COETeam -> PaaSTeam: Targeted Namespaces
+        PaaSTeam -> COETeam: Namespaces are enabled for Gremlin
+        PaaSTeam ->x COETeam: Namesapces are NOt Gremlin
+        note left Customer: Send COE BACKLOG or Remediate
+    end
+    COETeam -> Customer: Work with customer to understand architecture
+    note left Customer: END Flow (go to Resiliency testing phase)
+end
+
+footer "<font color=red><b>Questions? Email: ResiliencyCOE@cigna.com"
+@enduml
