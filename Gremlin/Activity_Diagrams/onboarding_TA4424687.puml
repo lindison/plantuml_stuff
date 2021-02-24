@@ -4,6 +4,7 @@
 ' 02/18/2021 
 ' Assumptions: Container PaaS is OpenShift
 ' // OpenShift will add application namespaces to Resiliency testing
+' // DRAFT // Pending Review 
 
 header "<font color=red><b>Questions? Email: ResiliencyCOE@cigna.com"
 title Resiliency Testing Onboarding
@@ -49,7 +50,7 @@ group Onboarding - Intake Questionaire
         COETeam -> Customer: GO
         COETeam ->x Customer: NO-GO
         note left Customer: Send COE BACKLOG or Remediate
-    end
+    end   
     Customer -> COETeam: provides resources and time
 end 
 
@@ -69,7 +70,7 @@ group Onboarding - Install Agent
     group Install Container PaaS [Onpremise / Public Cloud]
         COETeam -> PaaSTeam: Targeted Namespaces
         PaaSTeam -> COETeam: Namespaces are enabled for Gremlin
-        PaaSTeam ->x COETeam: Namesapces are NOt Gremlin
+        PaaSTeam ->x COETeam: Namesapces are NOT enabled Gremlin
         note left Customer: Send COE BACKLOG or Remediate
     end
     COETeam -> Customer: Work with customer to understand architecture
@@ -77,4 +78,5 @@ group Onboarding - Install Agent
 end
 
 footer "<font color=red><b>Questions? Email: ResiliencyCOE@cigna.com"
+
 @enduml

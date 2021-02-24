@@ -1,6 +1,15 @@
 @startuml
 
-header Gremlin AUTH workflow 
+' TA4424702 - AUTH for Resiliency COE
+' 02/23/2021 
+' Assumptions: 
+' // Interal Support: COETeam
+' // Application support: Application team 
+' // External Support, esculation from COETeam: Gremlin
+' // DRAFT // Pending Review 
+
+header "<font color=red><b>Questions? Email: ResiliencyCOE@cigna.com"
+
 title How users request access to Gremlin
 autonumber
 actor Requester
@@ -37,5 +46,7 @@ boundary Gremlin
 database GremlinAUTH
 hnote over GremlinAUTH: UserName
 hnote over GremlinAUTH: TeamID
+
+footer "<font color=red><b>Questions? Email: ResiliencyCOE@cigna.com"
 
 @enduml

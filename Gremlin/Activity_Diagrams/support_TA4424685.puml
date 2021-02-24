@@ -1,0 +1,77 @@
+@startuml
+
+' TA4424685 - Support model for Resiliency COE
+' TA4424689 - Service Request for Resiliency COE
+' 02/23/2021 
+' Assumptions: 
+' // Interal Support: COETeam
+' // Application support: Application team 
+' // External Support, esculation from COETeam: Gremlin
+' // DRAFT // Pending Review 
+' // support@gremlin.com , COETeam to generate tickets/emails to Gremlin
+
+header "<font color=red><b>Questions? Email: ResiliencyCOE@cigna.com"
+title Resiliency Testing Support
+
+autonumber 
+
+actor COETeam
+actor Customer
+actor ADResource
+actor OktaResource
+actor SupportTeam
+actor ApplicationTeam
+actor GremlinSupport
+database Reporting
+collections KnowledgeBase
+
+footer "<font color=red><b>Questions? Email: ResiliencyCOE@cigna.com"
+
+note over Mattermost
+Mattermost Channel 
+name To Be Determined 
+end note
+
+Customer -> KnowledgeBase: Checks documentation for FAQ/KB common issues/resolutions
+KnowledgeBase ->o KnowledgeBase: Resolves issue or does not
+KnowledgeBase -> Customer
+
+group ReportIssue
+    Customer -> Mattermost: Customer engages COETeam on Mattermost
+    Mattermost -> Mattermost
+    Customer -> ResiliencyCOE@cigna.com: Email the COE Team
+    ResiliencyCOE@cigna.com -> ResiliencyCOE@cigna.com
+    Mattermost -> COETeam: Response to Customer
+    ResiliencyCOE@cigna.com -> COETeam: Response to Customer
+    group Internal non-Sign-On Issue 
+        COETeam -> SupportTeam: Create Ticket
+        SupportTeam -> SupportTeam 
+    end
+    group Internal Sign-On Issue 
+        COETeam -> ADResource: Create Ticket (Active Directory)
+        ADResource -> ADResource
+        COETeam -> OktaResource: Create Ticket (Okta) 
+        OktaResource -> OktaResource
+    end
+    group Internal Application Issue 
+        COETeam -> ApplicationTeam
+        ApplicationTeam -> ApplicationTeam
+    end
+    group External Gremlin Issue
+        COETeam -> GremlinSupport
+        GremlinSupport -> GremlinSupport
+        GremlinSupport -> COETeam
+    end
+end
+group ResolveIssue
+    COETeam ->o Customer: Notify/Validate resolution with customer
+    COETeam ->o Reporting: Update statistics for Resiliency Support
+    COETeam ->o KnowledgeBase: COETeam updates KB and FAQ (where applicable)
+end
+
+note over Mattermost
+Mattermost Channel 
+name To Be Determined
+end note
+
+@enduml
